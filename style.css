@@ -3606,3 +3606,175 @@ body {
         letter-spacing: -1.3px;
     }
 }
+
+
+/* =========================================================
+   ACCUGRADE — PROFESSIONAL MOTION & POLISH
+   Safe visual layer: does not change application logic.
+========================================================= */
+
+:root {
+    --ag-blue: #1769ff;
+    --ag-blue-dark: #0d47c9;
+    --ag-ink: #142033;
+    --ag-muted: #667085;
+    --ag-border: rgba(19, 39, 72, 0.10);
+    --ag-shadow: 0 18px 55px rgba(24, 48, 90, 0.10);
+    --ag-shadow-hover: 0 24px 70px rgba(23, 105, 255, 0.16);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+button,
+a,
+input,
+select,
+textarea,
+[role="button"] {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+.role-option,
+.language-option,
+.feature,
+.card,
+.panel,
+.stat-card,
+.table-row,
+tr {
+    transition:
+        transform .22s cubic-bezier(.2,.8,.2,1),
+        box-shadow .22s ease,
+        border-color .22s ease,
+        background-color .22s ease,
+        color .22s ease,
+        opacity .22s ease;
+}
+
+button:not(:disabled):hover,
+a:hover {
+    transform: translateY(-1px);
+}
+
+button:not(:disabled):active,
+a:active,
+.role-option:active,
+.language-option:active {
+    transform: translateY(1px) scale(.985);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(23,105,255,.18);
+    outline-offset: 2px;
+}
+
+.input,
+.select,
+input,
+select,
+textarea {
+    transition:
+        border-color .22s ease,
+        box-shadow .22s ease,
+        background .22s ease,
+        transform .18s ease;
+}
+
+.input:focus,
+.select:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    transform: translateY(-1px);
+}
+
+.login-card,
+.brand-section,
+.login-section {
+    animation: agPageIn .65s cubic-bezier(.2,.75,.2,1) both;
+}
+
+.login-card {
+    animation-delay: .06s;
+}
+
+.feature {
+    animation: agRise .55s cubic-bezier(.2,.75,.2,1) both;
+}
+
+.feature:nth-child(2) { animation-delay: .08s; }
+.feature:nth-child(3) { animation-delay: .16s; }
+
+.login-button,
+.submit-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.login-button:hover,
+.submit-btn:hover {
+    box-shadow: 0 16px 34px rgba(23,105,255,.25);
+}
+
+@keyframes agPageIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes agRise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes agClick {
+    0% { transform: scale(.96); filter: brightness(1); }
+    45% { transform: scale(.99); filter: brightness(1.06); }
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+.ag-clicked {
+    animation: agClick .28s ease-out;
+}
+
+.ag-ripple {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    pointer-events: none;
+    background: rgba(255,255,255,.38);
+    transform: translate(-50%, -50%) scale(0);
+    animation: agRipple .55s ease-out forwards;
+    z-index: 20;
+}
+
+@keyframes agRipple {
+    to {
+        transform: translate(-50%, -50%) scale(18);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}
