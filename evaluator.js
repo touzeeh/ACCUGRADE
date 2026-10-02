@@ -29,68 +29,12 @@ async function fetchRealAnswerSheets() {
        QUESTION / RUBRIC DATA
     ========================================================= */
 
-    const QUESTIONS = [
-        {
-            id: 1,
-            text: "Define the concept and explain its significance.",
-            maxMarks: 5,
-            answer: "The candidate defines the concept correctly and explains its primary significance with relevant terminology."
-        },
-        {
-            id: 2,
-            text: "Explain the working principle with a suitable example.",
-            maxMarks: 5,
-            answer: "The response describes the working principle and includes an example that is relevant to the question."
-        },
-        {
-            id: 3,
-            text: "Compare the two approaches discussed in the question.",
-            maxMarks: 5,
-            answer: "The candidate identifies the major differences and compares the approaches using appropriate points."
-        },
-        {
-            id: 4,
-            text: "Describe the main steps involved in the process.",
-            maxMarks: 5,
-            answer: "The answer contains the main process steps in a logically correct order."
-        },
-        {
-            id: 5,
-            text: "Discuss the advantages and limitations.",
-            maxMarks: 5,
-            answer: "The response identifies multiple advantages and at least one relevant limitation."
-        },
-        {
-            id: 6,
-            text: "Solve the given problem and show the method used.",
-            maxMarks: 5,
-            answer: "The candidate follows a valid method and reaches a substantially correct result."
-        },
-        {
-            id: 7,
-            text: "Explain the result obtained in the previous question.",
-            maxMarks: 5,
-            answer: "The result is interpreted correctly and connected to the underlying concept."
-        },
-        {
-            id: 8,
-            text: "Write a short note on the practical application of the concept.",
-            maxMarks: 5,
-            answer: "The answer describes a practical application and explains why the concept is useful there."
-        },
-        {
-            id: 9,
-            text: "Identify the key factors affecting the outcome.",
-            maxMarks: 5,
-            answer: "The candidate identifies the principal factors and briefly explains their influence."
-        },
-        {
-            id: 10,
-            text: "Summarize the overall conclusion.",
-            maxMarks: 5,
-            answer: "The conclusion is consistent with the preceding answer and captures the essential finding."
-        }
-    ];
+    /* =========================================================
+       QUESTION / RUBRIC DATA
+       Question text and rubric are supplied by the live
+       evaluation flow. No hardcoded examination question,
+       candidate answer, or marks are stored here.
+    ========================================================= */
 
     /* =========================================================
        HELPERS
@@ -233,140 +177,23 @@ async function fetchRealAnswerSheets() {
                 {
                     id: 2,
                     title: "AI engine ready",
-                    text: "Rubric matching and answer analysis are available.",
-                    read: false
-                },
-                {
-                    id: 3,
-                    title: "Evaluation workspace ready",
-                    text: "Your current workload is synchronized locally.",
-                    read: true
-                }
-            ]
+                    text: "Rubric match    /* =========================================================
+       LOCAL STATE FALLBACK
+    ========================================================= */
+
+    function createSheets() {
+        return [];
+    }
+
+    function defaultState() {
+        return {
+            sheets: [],
+            activeSheetId: null,
+            notifications: []
         };
     }
 
-    let state;
-
-    function loadState() {
-        try {
-            const saved =
-                JSON.parse(
-                    localStorage.getItem(STORAGE_KEY)
-                );
-
-            if (
-                saved &&
-                Array.isArray(saved.sheets)
-            ) {
-                return saved;
-            }
-
-        } catch (error) {
-            console.warn(
-                "Could not load evaluator state.",
-                error
-            );
-        }
-
-        return defaultState();
-    }
-
-    function saveState() {
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(state)
-        );
-    }
-
-    /* =========================================================
-       DATA HELPERS
-    ========================================================= */
-
-    function getCompleted() {
-        return state.sheets.filter(
-            sheet => sheet.status === "completed"
-        );
-    }
-
-    function getPending() {
-        return state.sheets.filter(
-            sheet => sheet.status !== "completed"
-        );
-    }
-
-    function getProgress() {
-        if (!state.sheets.length) return 0;
-
-        return Math.round(
-            getCompleted().length /
-            state.sheets.length *
-            100
-        );
-    }
-
-    function getScore(answers) {
-        return answers.reduce(
-            (total, answer) =>
-                total + (Number(answer.marks) || 0),
-            0
-        );
-    }
-
-    function getCandidateAvatar(candidate) {
-        return String(candidate).slice(-2);
-    }
-
-    /* =========================================================
-       DASHBOARD
-    ========================================================= */
-
-    function updateDashboard() {
-
-        const assigned = state.sheets.length;
-        const completed = getCompleted().length;
-        const pending = assigned - completed;
-        const aiAssisted =
-            state.sheets.filter(
-                sheet => sheet.aiAssisted
-            ).length;
-
-        const progress = getProgress();
-
-        const values = [
-            assigned,
-            completed,
-            pending,
-            aiAssisted
-        ];
-
-        els.stats.forEach(
-            (element, index) => {
-                if (values[index] !== undefined) {
-                    element.textContent =
-                        values[index];
-                }
-            }
-        );
-
-        if (els.progressRing) {
-            els.progressRing.style.setProperty(
-                "--progress",
-                `${progress * 3.6}deg`
-            );
-        }
-
-        if (els.progressValue) {
-            els.progressValue.textContent =
-                `${progress}%`;
-        }
-
-        if (els.progressBar) {
-            els.progressBar.style.width =
-                `${progress}%`;
-        }
-
-        const progressValues = [
+ progressValues = [
             assigned,
             completed,
             pending
@@ -1070,30 +897,99 @@ async function fetchRealAnswerSheets() {
        EVALUATION WORKSPACE
     ========================================================= */
 
-    function openEvaluation(
-    sheet,
-    readOnly = false
-) {
+    async function loadQuestionData(sheet) {
+        const questionEndpointCandidates = [
+            `${API_BASE_URL}/evaluator/answer-sheets/${sheet.backendSheetId}/questions`,
+            `${API_BASE_URL}/evaluator/answer-sheets/${sheet.backendSheetId}/context`,
+            `${API_BASE_URL}/evaluator/batches/${sheet.batchId}/questions`
+        ];
 
-    // ============================================================
-    // REAL SHEET QUESTIONS
-    // ============================================================
-
-    const QUESTIONS = [
-        {
-            id: 1,
-            text: "Briefly state the first two of the Four Noble Truths taught by Gautama Buddha.",
-            maxMarks: Number(sheet.maxScore) || 2,
-            answer: "The first two Noble Truths are Dukkha and Samudaya. Dukkha states that life involves suffering, dissatisfaction, or unsatisfactoriness. Samudaya states that the cause of suffering is craving or desire."
+        for (const url of questionEndpointCandidates) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) continue;
+                const data = await response.json();
+                const questions = data.questions || data;
+                if (Array.isArray(questions) && questions.length) {
+                    return { questions };
+                }
+            } catch (error) {
+                console.warn("Question endpoint failed:", url, error);
+            }
         }
-    ];
 
-    state.activeSheetId =
-        sheet.id;
+        // Backwards-compatible fallback: the current backend does not expose
+        // question/rubric data in /evaluator/answer-sheets. Do not invent it.
+        throw new Error(
+            "The backend did not provide the real question/rubric for this sheet."
+        );
+    }
 
+    async function openEvaluation(
+        sheet,
+        readOnly = false
+    ) {
+
+        state.activeSheetId = sheet.id;
         saveState();
 
-        const overlay =
+        let QUESTION_DATA;
+
+        try {
+            QUESTION_DATA = await loadQuestionData(sheet);
+        } catch (error) {
+            console.error("Could not load question data:", error);
+            toast(
+                error.message || "Could not load the real question data.",
+                "error"
+            );
+            return;
+        }
+
+        if (!QUESTION_DATA || !Array.isArray(QUESTION_DATA.questions) || !QUESTION_DATA.questions.length) {
+            toast(
+                "No question data is available for this answer sheet.",
+                "error"
+            );
+            return;
+        }
+
+        const QUESTIONS = QUESTION_DATA.questions.map((q, index) => ({
+            id: Number(q.id ?? q.question_id ?? index + 1),
+            text: q.text ?? q.question ?? "",
+            maxMarks: Number(q.maxMarks ?? q.max_marks ?? q.marks ?? sheet.maxScore ?? 0),
+            answer: q.answer ?? q.answer_key ?? q.rubric ?? ""
+        })).filter(q => q.text && q.maxMarks >= 0);
+
+        if (!QUESTIONS.length) {
+            toast("No valid questions were returned.", "error");
+            return;
+        }
+
+        // Use only the real candidate-response data already present on
+        // the sheet. We do not populate it from the question/rubric.
+        const existingAnswers = Array.isArray(sheet.answers)
+            ? sheet.answers
+            : [];
+
+        const overlay = document.createElement("div");
+        overlay.className = "evaluation-overlay";
+        overlay.id = "evaluationOverlay";
+
+        const answers = QUESTIONS.map(q => {
+            const existing = existingAnswers.find(
+                answer => Number(answer.questionId) === Number(q.id)
+            );
+
+            return {
+                questionId: q.id,
+                marks: existing?.marks ?? null,
+                answer: existing?.answer || "",
+                comment: existing?.comment || ""
+            };
+        });
+
+               const overlay =
             document.createElement("div");
 
         overlay.className =
@@ -1101,31 +997,6 @@ async function fetchRealAnswerSheets() {
 
         overlay.id =
             "evaluationOverlay";
-
-        const answers = QUESTIONS.map(q => {
-
-    const existing =
-        (sheet.answers || []).find(
-            answer =>
-                answer.questionId === q.id
-        );
-
-    return {
-        questionId: q.id,
-
-        marks:
-            existing?.marks ??
-            null,
-
-        answer:
-            existing?.answer ||
-            "",
-
-        comment:
-            existing?.comment ||
-            ""
-    };
-});
 
         overlay.innerHTML = `
 
@@ -3240,12 +3111,8 @@ if (answer) {
                 fileUrl:
                     `${API_BASE_URL}${sheet.file_url}`,
 
-                answers: QUESTIONS.map(question => ({
-                    questionId: question.id,
-                    marks: null,
-                    answer: "",
-                    comment: ""
-                }))
+                answers: [],
+
             })),
 
             activeSheetId: null,
