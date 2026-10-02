@@ -4618,3 +4618,53 @@ table tbody tr:hover {
     background: #f9fbff;
     transform: none;
 }
+
+
+/* =========================================================
+   ACCUGRADE — UNIVERSAL DIALOG / POPUP POLISH
+========================================================= */
+
+dialog,
+.modal,
+.modal-dialog,
+.dialog,
+.popup,
+[role="dialog"] {
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    box-shadow:
+        0 36px 100px rgba(15,35,70,.24),
+        0 10px 30px rgba(15,35,70,.08);
+    animation: agUniversalDialogIn .38s cubic-bezier(.16,1,.3,1) both;
+}
+
+dialog::backdrop,
+.modal-backdrop,
+.dialog-backdrop {
+    background: rgba(15,27,48,.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+@keyframes agUniversalDialogIn {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    dialog,
+    .modal,
+    .modal-dialog,
+    .dialog,
+    .popup,
+    [role="dialog"] {
+        animation: none !important;
+    }
+}
