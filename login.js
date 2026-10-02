@@ -251,3 +251,54 @@ if (loginForm) {
     });
 
 }
+
+
+/* =========================================================
+   ACCUGRADE — GLOBAL CLICK MOTION
+   Visual-only enhancement. Application behavior unchanged.
+========================================================= */
+
+(() => {
+    "use strict";
+
+    const interactiveSelector = [
+        "button",
+        "a",
+        "[role='button']",
+        ".nav-item",
+        ".table-action",
+        ".question-nav",
+        ".role-option",
+        ".language-option"
+    ].join(",");
+
+    document.addEventListener("pointerdown", event => {
+        const target = event.target.closest(interactiveSelector);
+        if (!target || target.disabled) return;
+
+        target.classList.remove("ag-clicked");
+        void target.offsetWidth;
+        target.classList.add("ag-clicked");
+
+        if (target.matches("button, .table-action, .primary-button, .secondary-button, .question-nav, .nav-item")) {
+            const rect = target.getBoundingClientRect();
+            const ripple = document.createElement("span");
+
+            ripple.className = "ag-ripple";
+            ripple.style.left = (event.clientX - rect.left) + "px";
+            ripple.style.top = (event.clientY - rect.top) + "px";
+
+            target.appendChild(ripple);
+
+            window.setTimeout(() => ripple.remove(), 600);
+        }
+    }, { passive: true });
+
+    document.addEventListener("animationend", event => {
+        if (event.animationName === "agClick" ||
+            event.animationName === "agAdminClick" ||
+            event.animationName === "agEvalClick") {
+            event.target.classList.remove("ag-clicked");
+        }
+    });
+})();
