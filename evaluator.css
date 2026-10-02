@@ -2903,3 +2903,148 @@ tbody tr:hover {
         transition-duration: 0.01ms !important;
     }
 }
+
+
+/* =========================================================
+   ACCUGRADE — EVALUATOR PROFESSIONAL UI POLISH
+========================================================= */
+
+html { scroll-behavior: smooth; }
+
+body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+button, a, input, select, textarea, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button, a, .nav-item, .stat-card, .panel, .question-nav,
+.table-action, .secondary-button, .primary-button {
+    transition:
+        transform .22s cubic-bezier(.2,.8,.2,1),
+        box-shadow .22s ease,
+        border-color .22s ease,
+        background-color .22s ease,
+        color .22s ease,
+        opacity .22s ease;
+}
+
+button:not(:disabled):hover,
+a:hover,
+.nav-item:hover,
+.question-nav:hover {
+    transform: translateY(-1px);
+}
+
+button:not(:disabled):active,
+a:active,
+.nav-item:active,
+.question-nav:active,
+.table-action:active {
+    transform: translateY(1px) scale(.985);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(23,105,255,.18);
+    outline-offset: 2px;
+}
+
+.stat-card,
+.panel,
+.question-workspace,
+.answer-paper,
+.mark-box,
+.ai-insight,
+.evaluation-meta > div {
+    box-shadow: 0 10px 32px rgba(24,48,90,.055);
+}
+
+.stat-card:hover,
+.panel:hover {
+    box-shadow: 0 22px 55px rgba(23,105,255,.10);
+}
+
+table tbody tr {
+    transition: background .2s ease, transform .2s ease;
+}
+
+table tbody tr:hover {
+    transform: translateX(2px);
+}
+
+button,
+.table-action,
+.primary-button,
+.secondary-button,
+.question-nav {
+    position: relative;
+    overflow: hidden;
+}
+
+.evaluation-overlay {
+    animation: agOverlayIn .28s ease-out both;
+}
+
+.evaluation-modal {
+    animation: agModalIn .42s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.question-workspace > * {
+    animation: agQuestionIn .32s cubic-bezier(.2,.75,.2,1) both;
+}
+
+.ag-clicked {
+    animation: agEvalClick .28s ease-out;
+}
+
+.ag-ripple {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    pointer-events: none;
+    background: rgba(255,255,255,.38);
+    transform: translate(-50%, -50%) scale(0);
+    animation: agEvalRipple .55s ease-out forwards;
+    z-index: 30;
+}
+
+@keyframes agOverlayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes agModalIn {
+    from { opacity: 0; transform: translateY(18px) scale(.985); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes agQuestionIn {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes agEvalClick {
+    0% { transform: scale(.97); }
+    45% { transform: scale(1.01); }
+    100% { transform: scale(1); }
+}
+
+@keyframes agEvalRipple {
+    to { transform: translate(-50%, -50%) scale(18); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
