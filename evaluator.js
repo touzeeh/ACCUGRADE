@@ -759,15 +759,6 @@ async function fetchRealAnswerSheets() {
             };
         });
 
-               const overlay =
-            document.createElement("div");
-
-        overlay.className =
-            "evaluation-overlay";
-
-        overlay.id =
-            "evaluationOverlay";
-
         overlay.innerHTML = `
 
             <div class="evaluation-modal">
