@@ -3778,3 +3778,76 @@ textarea:focus {
         transition-duration: .01ms !important;
     }
 }
+
+
+/* =========================================================
+   ACCUGRADE — LOGIN / GLOBAL CLEAN VISUAL SYSTEM
+   Visual-only overrides. No application logic changed.
+========================================================= */
+
+body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f6f8fc;
+    color: #172033;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.login-section {
+    background: #f9fbfe;
+}
+
+.login-card {
+    max-width: 430px;
+}
+
+.login-header h2 {
+    color: #16233b;
+    font-weight: 750;
+    letter-spacing: -.045em;
+}
+
+.login-header p,
+.description {
+    color: #718096;
+}
+
+.form-group > label,
+.password-label label {
+    color: #334155;
+    font-weight: 650;
+}
+
+.role-option,
+.input-wrapper input {
+    border-color: #e0e6ee;
+    background: #fff;
+}
+
+.role-option:hover {
+    border-color: #bfd1ed;
+    box-shadow: 0 10px 28px rgba(37,99,235,.08);
+}
+
+.role-option.active {
+    border-color: #8eb5f3;
+    background: #f3f7ff;
+}
+
+.input-wrapper input {
+    border-radius: 11px;
+}
+
+.login-button {
+    border-radius: 11px;
+    box-shadow: 0 10px 25px rgba(37,99,235,.16);
+}
+
+.login-button:hover {
+    box-shadow: 0 15px 32px rgba(37,99,235,.22);
+}
+
+.create-account a,
+.password-label a {
+    font-weight: 700;
+}
