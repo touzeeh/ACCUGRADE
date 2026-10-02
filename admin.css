@@ -4542,3 +4542,79 @@ button,
         scroll-behavior: auto !important;
     }
 }
+
+
+/* =========================================================
+   ACCUGRADE — CLEAN PROFESSIONAL VISUAL SYSTEM
+   Visual-only overrides. No application logic changed.
+========================================================= */
+
+body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    letter-spacing: -0.01em;
+}
+
+.admin-sidebar,
+.sidebar {
+    box-shadow: 8px 0 30px rgba(15,35,70,.035);
+}
+
+.main,
+.main-content {
+    background: transparent;
+}
+
+.card,
+.panel,
+.stat-card,
+.batch-card,
+.review-card,
+.report-card {
+    border-color: #e5eaf1;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(15,35,70,.055);
+}
+
+.card:hover,
+.panel:hover,
+.stat-card:hover,
+.batch-card:hover,
+.review-card:hover,
+.report-card:hover {
+    border-color: #d7e1ee;
+    box-shadow: 0 20px 48px rgba(37,99,235,.09);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+.primary-button,
+.secondary-button,
+.table-action {
+    border-radius: 10px;
+}
+
+table thead {
+    background: #f8fafc;
+}
+
+table th {
+    color: #8996a8;
+    font-size: 10px;
+    letter-spacing: .12em;
+}
+
+table td {
+    color: #607086;
+    font-size: 13px;
+}
+
+table tbody tr:hover {
+    background: #f9fbff;
+    transform: none;
+}
